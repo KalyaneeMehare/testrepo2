@@ -26,14 +26,17 @@ pipeline {
                 sh 'mvn test'
             }
         }
-	stage("build & SonarQube analysis") {
-            steps {
-              withSonarQubeEnv('MySonar'){
-                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
-		sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=sonar-pro -Dsonar.login=3223a9e4899bd80cac62129a6627254edb3cc046'
+	stage('Sonar Analysis') {
+		environment {
+		SCANNER_HOME = tool 'Mysonar'
+		PROJECT_NAME = "sonar-pro"
 		}
-            }
-          }
+	    steps {
+	       withSonarQubeEnv('Mysonar') {
+		sh '''$SCANNER_HOME/bin/sonar-scanner  -Dsonar.java.binaries=build/classes/java/ -Dsonar.projectKey=$PROJECT_NAME -Dsonar.sources=.'''
+		}
+	    }
+	}
 	   stage("Quality Gate") {
             steps {
               timeout(time: 1, unit: 'HOURS') {
