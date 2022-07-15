@@ -7,7 +7,7 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 git branch: 'main',
-		credentialsId: '927a0ea4-bde7-4a1e-a590-f0b87f0d7c40',
+		credentialsId: '6206ef0d-ec37-41d9-9390-2fe8ac30d231',
 		url: 'https://github.com/cloudtechner/testrepo.git'
             }
         }    
@@ -26,10 +26,26 @@ pipeline {
                 sh 'mvn test'
             }
         }
-	stage('Deploy To Environment') {
+	stage("build & SonarQube analysis") {
+            steps {
+              withSonarQubeEnv('MySonar'){
+                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
+		sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=sonar-pro -Dsonar.login=3223a9e4899bd80cac62129a6627254edb3cc046'
+		}
+            }
+          }
+	   stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
+	  stage('Deploy To Environment') {
             steps {
                 sh 'echo Deployment Done'
             }
         }
     }
 }
+	
