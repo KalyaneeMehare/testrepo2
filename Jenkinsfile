@@ -8,7 +8,7 @@ pipeline {
             steps {
                 git branch: 'main',
 		credentialsId: '6206ef0d-ec37-41d9-9390-2fe8ac30d231',
-		url: 'https://github.com/cloudtechner/testrepo.git'
+		url: 'https://github.com/KalyaneeMehare/testrepo.git'
             }
         }    
         stage('Compile') {
