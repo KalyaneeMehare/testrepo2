@@ -10,22 +10,13 @@ pipeline {
 		credentialsId: '6206ef0d-ec37-41d9-9390-2fe8ac30d231',
 		url: 'https://github.com/KalyaneeMehare/testrepo.git'
             }
-        }    
-        stage('Compile') {
+        }
+	 stage('Building') {
             steps {
                 sh 'mvn clean install'
             }
-        }
-        stage('Package') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-        stage('Unit Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+        } 
+     
 	stage('Sonar Analysis') {
 		environment {
 		SCANNER_HOME = tool 'Mysonar'
