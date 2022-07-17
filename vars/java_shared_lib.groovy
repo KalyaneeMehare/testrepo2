@@ -84,7 +84,7 @@ pipeline {
 				steps {
 					withSonarQubeEnv(credentialsId: 'sonar-pro', installationName: 'MySonar'){
 						sh 'java -jar jacococli.jar report target/jacoco.exec --classfiles target/  --xml target/report.xml'
-				       sh 'mvn verify sonar:sonar -Dsonar.projectKey=kalyanee-sonar -Dsonar.login=060067941ec0e0fa44f6a9654780776b6a2e307e -Dsonar.host.url=https://sonarcloud.io/'
+				       sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=sonar-pro1 -Dsonar.login=ee1b7f8c900e2ca73ceb9fe326e396fa07b6774c -Dsonar.host.url=https://sonarcloud.io/'
 				       sh 'sleep 60'
 			}
 		}
