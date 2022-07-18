@@ -44,7 +44,7 @@ pipeline {
             }
           }
 	 
-	  stage("renaming-the-jar-and-backing-up-the-jar") {
+	  stage("renaming and-backing-up-the-jar") {
             steps {
         	sh 'sudo mkdir -p /opt/backup'
        	        sh 'sudo mv target/my-app-1.0-SNAPSHOT.jar target/1.0.${BUILD_NUMBER}.jar'
